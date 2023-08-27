@@ -3,20 +3,25 @@ import axios from "axios";
 
 export const fetchProducts = createAsyncThunk(
     "products/fetchProducts",
-    async (thunkAPI) => {
-        console.log(thunkAPI);
+    async (category, thunkAPI) => {
         try {
-            const response = await axios.get(
-                "http://fakestoreapi.com/products",
-            );
+            let response;
+
+            if (category) {
+                response = await axios.get(
+                    `https://fakestoreapi.com/products/category/${category}`,
+                );
+            } else {
+                response = await axios.get("https://fakestoreapi.com/products");
+            }
+
             console.log("@@@", response);
-            return response.data; //payload
+            return response.data; //payload;
         } catch (error) {
             thunkAPI.rejectWithValue("error loading products");
         }
     },
 );
-
 const initialState = {
     products: [],
     isLoading: false,
@@ -30,7 +35,7 @@ export const productsSlice = createSlice({
     // reducer를 추가하면 프로미스의 진행 상태에 따라서 리듀서를 실행할 수 있다.(상태에 따라 실행되는 리듀서가 다름)
     extraReducers: (builder) => {
         builder
-            .addCase(fetchProducts.pending, (state, action) => {
+            .addCase(fetchProducts.pending, (state) => {
                 state.isLoading = true;
             })
             .addCase(fetchProducts.fulfilled, (state, action) => {
