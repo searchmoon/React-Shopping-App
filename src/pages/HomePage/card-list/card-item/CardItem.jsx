@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
+import { addToCart } from "../../../../store/cart/cart.slice";
 import styles from "./CardItem.module.scss";
 
 const CardItem = ({ item }) => {

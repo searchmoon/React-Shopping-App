@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Form from "../../../components/form/Form";
 import app from "../../../firebase";
+import { setUserId } from "../../../store/cart/cart.slice";
 import { setUser } from "../../../store/user/user.slice";
 
 const SignIn = () => {
@@ -22,7 +23,7 @@ const SignIn = () => {
                         token: userCredential.user.refreshToken,
                     }),
                 );
-                
+                dispatch(setUserId(userCredential.user.uid));
                 navigate("/");
             })
             .catch((error) => {
