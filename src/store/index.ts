@@ -16,3 +16,8 @@ export const store = configureStore({
         cartSlice,
     },
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+//ReturnType: 함수에서 반환하는 타입을 가져올수 있는 타입
+
+export type AppDispatch = typeof store.dispatch;
