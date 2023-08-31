@@ -2,9 +2,14 @@ import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
 import { addToCart } from "../../../../store/cart/cart.slice";
+import { IProduct } from "../../../../store/products/products.type";
 import styles from "./CardItem.module.scss";
 
-const CardItem = ({ item }) => {
+type CardItemProps = {
+    item: IProduct;
+};
+
+const CardItem: FC<CardItemProps> = ({ item }) => {
     const { products } = useAppSelector((state) => state.cartSlice);
     const productMatching = products.some((product) => product.id === item.id);
     // some() 메소드는 주어진 판별함수를 적어도 하나라도 통과한다면, true 를 반환한다.

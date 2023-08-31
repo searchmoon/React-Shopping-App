@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import {
     deleteFromCart,
@@ -8,8 +8,13 @@ import {
 import styles from "./CartItem.module.scss";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useAppDispatch } from "../../../../hooks/redux";
+import { IProduct } from "../../../../store/products/products.type";
 
-const CartItem = ({ item }) => {
+type CartItemProps = {
+    item: IProduct;
+};
+
+const CartItem: FC<CartItemProps> = ({ item }) => {
     const dispatch = useAppDispatch();
 
     const deleteProduct = () => {
