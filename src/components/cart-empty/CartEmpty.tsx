@@ -1,8 +1,12 @@
-import React from "react";
+import { FC } from "react";
 import { Link } from "react-router-dom";
 import styles from "./CartEmpty.module.scss";
 
-const CartEmpty = ({ title }) => {
+type CartEmptyProps = {
+    title: string;
+};
+
+const CartEmpty: FC<CartEmptyProps> = ({ title }) => {
     return (
         <div className={styles.cart_empty}>
             <img src="img/empty-cart.png" alt="cart empty" />

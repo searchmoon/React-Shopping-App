@@ -1,4 +1,3 @@
-import React from "react";
 import CardList from "./card-list/CardList";
 import CountProducts from "./count-products/CountProducts";
 import FiltersCategory from "./filter-category/FiltersCategory";
