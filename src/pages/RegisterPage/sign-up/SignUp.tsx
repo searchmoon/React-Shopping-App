@@ -1,20 +1,21 @@
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "../../../components/form/Form";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import app from "../../../firebase";
-import { setUserId } from "../../../store/cart/cart.slice";
+import { useDispatch } from "react-redux";
 import { setUser } from "../../../store/user/user.slice";
+import { setUserId } from "../../../store/cart/cart.slice";
 
-const SignIn = () => {
+const SignUp = () => {
     const navigate = useNavigate();
     const [firebaseError, setFirebaseError] = useState("");
-    const dispatch = useDispatch();
 
+    const dispatch = useDispatch();
     const auth = getAuth(app);
-    const handleLogin = (email, password) => {
-        signInWithEmailAndPassword(auth, email, password)
+
+    const handleSignup = (email: string, password: string) => {
+        createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 dispatch(
                     setUser({
@@ -38,11 +39,11 @@ const SignIn = () => {
 
     return (
         <Form
-            title={"로그인"}
-            getDataForm={handleLogin}
+            title={"가입하기"}
+            getDataForm={handleSignup}
             firebaseError={firebaseError}
         />
     );
 };
 
-export default SignIn;
+export default SignUp;

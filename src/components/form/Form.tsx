@@ -1,20 +1,34 @@
-import { useForm } from "react-hook-form";
+import { FC } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import styles from "./Form.module.scss";
 
-const Form = ({ title, getDataForm, firebaseError }) => {
+type FormProps = {
+    title: string;
+    getDataForm: (email: string, password: string) => void;
+    firebaseError: string;
+};
+//getDataForm 함수가 return 하는게 없어서 => void 해주었다.
+
+type Inputs = {
+    email: string;
+    password: string;
+};
+
+const Form: FC<FormProps> = ({ title, getDataForm, firebaseError }) => {
     const {
         register,
         handleSubmit,
         formState: { errors },
         reset,
-    } = useForm({
+    } = useForm<Inputs>({
         mode: "onChange",
     });
 
-    const onSubmitForm = ({ email, password }) => {
+    const onSubmitForm: SubmitHandler<FieldValues> = ({ email, password }) => {
         getDataForm(email, password);
         reset();
     };
+    //onSubmitForm 에 react-hook-form 에서 제공해주는 SubmitHandler를 사용해주고, FieldValues를 사용해준다.
 
     const userEmail = {
         required: "필수 필드입니다.",
@@ -60,9 +74,7 @@ const Form = ({ title, getDataForm, firebaseError }) => {
             </div>
             <button type="submit">{title}</button>
             {firebaseError && (
-                <span className={styles.form_error}>
-                    {firebaseError}
-                </span>
+                <span className={styles.form_error}>{firebaseError}</span>
             )}
         </form>
     );
