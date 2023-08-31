@@ -1,5 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import { IProduct } from "../products/products.type";
 
 export const postOrder = createAsyncThunk(
     "cart/postOrder",
@@ -17,10 +18,16 @@ export const postOrder = createAsyncThunk(
     },
 );
 
+type CartState = {
+    products: IProduct[];
+    totalPrice: number;
+    userId: string;
+};
+
 const cartProducts = localStorage.getItem("cartProducts");
 const userId = localStorage.getItem("userId");
 
-const initialState = {
+const initialState: CartState = {
     products: cartProducts ? JSON.parse(cartProducts || "") : [],
     totalPrice: 0,
     userId: userId ? JSON.parse(userId || "") : "",
@@ -30,7 +37,7 @@ export const cartSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
-        setUserId: (state, action) => {
+        setUserId: (state, action: PayloadAction<string>) => {
             state.userId = action.payload;
 
             localStorage.setItem("userId", JSON.stringify(state.userId));
@@ -40,7 +47,7 @@ export const cartSlice = createSlice({
 
             localStorage.setItem("userId", JSON.stringify(state.userId));
         },
-        addToCart: (state, action) => {
+        addToCart: (state, action: PayloadAction<IProduct>) => {
             state.products.push({
                 ...action.payload,
                 quantity: 1,
@@ -52,7 +59,7 @@ export const cartSlice = createSlice({
                 JSON.stringify(state.products),
             );
         },
-        deleteFromCart: (state, action) => {
+        deleteFromCart: (state, action: PayloadAction<number>) => {
             state.products = state.products.filter(
                 (item) => item.id !== action.payload,
             );
@@ -62,7 +69,7 @@ export const cartSlice = createSlice({
                 JSON.stringify(state.products),
             );
         },
-        incrementProduct: (state, action) => {
+        incrementProduct: (state, action: PayloadAction<number>) => {
             state.products = state.products.map((item) =>
                 item.id === action.payload
                     ? {
@@ -79,7 +86,7 @@ export const cartSlice = createSlice({
             );
         },
 
-        decrementProduct: (state, action) => {
+        decrementProduct: (state, action: PayloadAction<number>) => {
             state.products = state.products.map((item) =>
                 item.id === action.payload
                     ? {
